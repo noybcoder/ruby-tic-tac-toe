@@ -8,9 +8,13 @@ class Board
     @layout = set_board
   end
 
+  def vacant?(position)
+    layout[position - 1].to_s.match?(/^\d$/)
+  end
+
   def display_board
     layout.each_slice(3).each_with_index do |row, idx|
-      puts " #{row.join(' | ')}"
+      puts " #{row.join(' | ')}\n"
       puts '---|---|---' if idx < 2
     end
   end
@@ -36,4 +40,5 @@ class Board
 end
 
 board1 = Board.new
+board1.layout[2] = 'X'
 board1.display_board
