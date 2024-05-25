@@ -8,8 +8,8 @@ class Player
     @avatar = set_avatar
   end
 
-  def self.avatars
-    @@avatars
+  def choose_position
+    gets.chomp.to_i
   end
 
   private
@@ -22,8 +22,8 @@ class Player
       @@avatars << avatar
     else
       begin
-        raise CustomErrors::GameRulesViolation.new
-      rescue CustomErrors::GameRulesViolation => e
+        raise CustomErrors::PlayerLimitViolation.new
+      rescue CustomErrors::PlayerLimitViolation => e
         puts e.message
       end
     end
@@ -46,15 +46,19 @@ class Player
       end
     end
   end
+
+  def self.avatars
+    @@avatars
+  end
 end
 
-player1 = Player.new
-p "Player 1: #{player1.avatar}"
+# player1 = Player.new
+# p "Player 1: #{player1.avatar}"
 
-player2 = Player.new
-p "Player 2: #{player2.avatar}"
+# player2 = Player.new
+# p "Player 2: #{player2.avatar}"
 
-player3 = Player.new
-p "Player 3: #{player3.avatar}"
+# player3 = Player.new
+# p "Player 3: #{player3.avatar}"
 
-p Player.avatars
+# p Player.avatars
