@@ -31,7 +31,9 @@ class Player
   end
 
   def set_first_player_avatar
-    loop do
+    valid_avatar = false
+
+    until valid_avatar do
       puts 'Choose your avatar (O or X): '
       choice = gets.chomp
 
@@ -40,11 +42,24 @@ class Player
       rescue CustomErrors::InvalidAvatarChoice => e
         puts e.message
       else
-        break
-      ensure
+        valid_avatar = true
         return choice.upcase
       end
     end
+    # loop do
+    #   puts 'Choose your avatar (O or X): '
+    #   choice = gets.chomp
+
+    #   begin
+    #     raise CustomErrors::InvalidAvatarChoice.new unless choice.match?(/^[ox]{1}$/i)
+    #   rescue CustomErrors::InvalidAvatarChoice => e
+    #     puts e.message
+    #   else
+    #     break
+    #   ensure
+    #     return choice.upcase
+    #   end
+    # end
   end
 
   def self.avatars
@@ -52,13 +67,13 @@ class Player
   end
 end
 
-# player1 = Player.new
-# p "Player 1: #{player1.avatar}"
+player1 = Player.new
+p "Player 1: #{player1.avatar}"
 
-# player2 = Player.new
-# p "Player 2: #{player2.avatar}"
+player2 = Player.new
+p "Player 2: #{player2.avatar}"
 
-# player3 = Player.new
-# p "Player 3: #{player3.avatar}"
+player3 = Player.new
+p "Player 3: #{player3.avatar}"
 
-# p Player.avatars
+p Player.avatars

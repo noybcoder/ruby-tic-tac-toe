@@ -9,19 +9,20 @@ class Game
   # end
 
     def update_board(player, board)
-    loop do
-      vacancies = board.vacant_positions
-      puts "Choose from positions #{vacancies.join(', ')} to place your avatar: "
-      player_position = player.choose_position
-      begin
-        raise CustomErrors::InvalidBoardPosition.new unless vacancies.include?(player_position)
-      rescue CustomErrors::InvalidBoardPosition => e
-        puts e.message
-      else
-        board.layout[player_position - 1] = player.avatar
-        break
+      loop do
+        vacancies = board.vacant_positions
+        puts "Choose from positions #{vacancies.join(', ')} to place your avatar: "
+        player_position = player.choose_position
+
+        begin
+          raise CustomErrors::InvalidBoardPosition.new unless vacancies.include?(player_position)
+        rescue CustomErrors::InvalidBoardPosition => e
+          puts e.message
+        else
+          board.layout[player_position - 1] = player.avatar
+          break
+        end
       end
-    end
   end
 end
 
