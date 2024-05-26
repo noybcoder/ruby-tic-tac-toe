@@ -1,5 +1,4 @@
 require_relative 'errors'
-# require_relative 'player'
 
 class Board
   attr_reader :layout
@@ -12,21 +11,6 @@ class Board
   def vacant_positions
     layout.select { |spot| vacant?(spot) }
   end
-
-  # def update_board(player)
-  #   loop do
-  #     puts "Choose from positions #{vacant_positions.join(', ')} to place your avatar: "
-  #     position = player.choose_position
-  #     begin
-  #       raise CustomErrors::InvalidBoardPosition.new unless vacant_positions.include?(position)
-  #     rescue CustomErrors::InvalidBoardPosition => e
-  #       puts e.message
-  #     else
-  #       layout[position - 1] = player.avatar
-  #       break
-  #     end
-  #   end
-  # end
 
   def display_board
     layout.each_slice(3).each_with_index do |row, idx|

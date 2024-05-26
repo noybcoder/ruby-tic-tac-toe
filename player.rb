@@ -2,7 +2,8 @@ require_relative 'errors'
 
 class Player
   attr_reader :avatar
-  @@avatars = []
+  # @@avatars = []
+  @@avatars = {}
 
   def initialize
     @avatar = set_avatar
@@ -18,12 +19,12 @@ class Player
 
   private
   def set_avatar
-    if @@avatars.length == 0
+    if @@avatars.size == 0
       avatar = set_first_player_avatar
-      @@avatars << avatar
-    elsif @@avatars.length == 1
+      @@avatars[avatar] = 'Player 1'
+    elsif @@avatars.size == 1
       avatar= @@avatars.include?('O')? 'X': 'O'
-      @@avatars << avatar
+      @@avatars[avatar] = 'Player 2'
     else
       begin
         raise CustomErrors::PlayerLimitViolation.new

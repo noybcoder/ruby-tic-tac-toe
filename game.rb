@@ -29,13 +29,28 @@ class Game
     end
   end
 
-  def win?(board)
-    win_conditions.select { |combo| check_winner(board, combo) }.flatten
+  def draw?(board)
+    get_game_state(board, 0.upto(8))
   end
 
-  def check_winner(board, combo)
+  def win?(board)
+    get_win_pattern(board).length > 0
+  end
+
+  # def get_winner(player, board)
+
+  # end
+
+  private
+  def get_win_pattern(board)
+    win_conditions.select { |combo| get_game_state(board, combo) }.flatten
+  end
+
+  def get_game_state(board, combo)
     board.layout.values_at(*combo).all?(/[ox]/i)
   end
+
+
 end
 
 player1 = Player.new
@@ -48,3 +63,4 @@ game.update_board(player1, board)
 board.display_board
 
 p game.win?(board)
+puts Player.avatars
