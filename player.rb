@@ -2,7 +2,6 @@ require_relative 'errors'
 
 class Player
   attr_reader :avatar
-  # @@avatars = []
   @@avatars = {}
 
   def initialize

@@ -3,8 +3,10 @@ require_relative 'board'
 require_relative 'errors'
 
 class Game
-  attr_reader :win_conditions
-  def initialize
+  attr_reader :players, :board, :win_conditions
+  def initialize(players, board)
+    @players = players
+    @board = board
     @win_conditions = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8],
       [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -12,7 +14,7 @@ class Game
     ]
   end
 
-  def update_board(player, board)
+  def update_board(player)
     loop do
       vacancies = board.vacant_positions
       puts "Choose from positions #{vacancies.join(', ')} to place your avatar: "
@@ -29,38 +31,48 @@ class Game
     end
   end
 
-  def draw?(board)
-    get_game_state(board, 0.upto(8))
+  def draw?
+    board.layout.none?(/\d/i)
   end
 
-  def win?(board)
-    get_win_pattern(board).length > 0
+  def win?
+    get_win_pattern.length > 0
   end
 
-  # def get_winner(player, board)
+  def get_winner
+    Player.avatars[board.layout[get_win_pattern[0]]]
+  end
 
-  # end
+
+  def get_win_pattern
+    win_conditions.select { |combo| get_game_state(combo) }.flatten
+  end
 
   private
-  def get_win_pattern(board)
-    win_conditions.select { |combo| get_game_state(board, combo) }.flatten
-  end
-
-  def get_game_state(board, combo)
-    board.layout.values_at(*combo).all?(/[ox]/i)
+  def get_game_state(combo)
+    board.layout.values_at(*combo).all?(/o/i) || board.layout.values_at(*combo).all?(/x/i)
   end
 
 
 end
 
 player1 = Player.new
+player2 = Player.new
 board = Board.new
-game = Game.new
-game.update_board(player1, board)
-game.update_board(player1, board)
-game.update_board(player1, board)
+game = Game.new([player1, player2], board)
 
-board.display_board
+loop do
+  if game.win?
+    puts game.get_win_pattern
+    break
+  elsif game.draw?
+    puts 'It is a draw.'
+    break
+  end
+  game.update_board(player1)
+  board.display_board
 
-p game.win?(board)
-puts Player.avatars
+  game.update_board(player2)
+  board.display_board
+
+end
