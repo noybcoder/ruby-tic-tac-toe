@@ -21,12 +21,15 @@ class Game
 
       puts "Choose from positions #{vacancies.join(', ')} to place your avatar: "
       player_position = player.choose_position
+      valid_position = vacancies.include?(player_position)
 
-      if vacancies.include?(player_position)
+      if valid_position
         board.layout[player_position - 1] = player.avatar
         break
+      elsif player_position.between?(1, 9) && !valid_position
+        puts 'The position has been taken.'
       else
-        puts 'The position has either been taken or is not valid.'
+        puts 'The position is not valid.'
       end
     end
   end

@@ -2,7 +2,7 @@ require_relative 'errors'
 
 class Player
   attr_reader :avatar
-  @@avatars = {}
+  @@avatars = []
 
   def initialize
     @avatar = set_avatar
@@ -20,10 +20,10 @@ class Player
   def set_avatar
     if @@avatars.empty?
       avatar = set_first_player_avatar
-      @@avatars[avatar] = 'Player 1'
+      @@avatars << avatar
     elsif @@avatars.size == 1
-      avatar= @@avatars.key?('O')? 'X': 'O'
-      @@avatars[avatar] = 'Player 2'
+      avatar= @@avatars.include?('O')? 'X': 'O'
+      @@avatars << avatar
     else
       handle_player_limit_violation
     end
@@ -65,4 +65,4 @@ end
 # player3 = Player.new
 # p "Player 3: #{player3.avatar}"
 
-# p Player.avatars
+# p Player.avatars == false
