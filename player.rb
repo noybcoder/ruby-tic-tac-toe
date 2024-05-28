@@ -18,18 +18,14 @@ class Player
 
   private
   def set_avatar
-    if @@avatars.size == 0
+    if @@avatars.empty?
       avatar = set_first_player_avatar
       @@avatars[avatar] = 'Player 1'
     elsif @@avatars.size == 1
-      avatar= @@avatars.include?('O')? 'X': 'O'
+      avatar= @@avatars.key?('O')? 'X': 'O'
       @@avatars[avatar] = 'Player 2'
     else
-      begin
-        raise CustomErrors::PlayerLimitViolation.new
-      rescue CustomErrors::PlayerLimitViolation => e
-        puts e.message
-      end
+      handle_player_limit_violation
     end
     avatar
   end
@@ -37,18 +33,25 @@ class Player
   def set_first_player_avatar
     valid_avatar = false
 
-    until valid_avatar do
+    until valid_avatar
       puts 'Choose your avatar (O or X): '
       choice = gets.chomp
 
-      begin
-        raise CustomErrors::InvalidAvatarChoice.new unless choice.match?(/^[ox]{1}$/i)
-      rescue CustomErrors::InvalidAvatarChoice => e
-        puts e.message
-      else
+      if choice.match?(/^[ox]{1}$/i)
         valid_avatar = true
         return choice.upcase
+      else
+        puts 'Please only choose from "O" and "X".'
       end
+    end
+  end
+
+  def handle_player_limit_violation
+    begin
+      raise CustomErrors::PlayerLimitViolation.new
+    rescue CustomErrors::PlayerLimitViolation => e
+      puts e.message
+      exit
     end
   end
 end

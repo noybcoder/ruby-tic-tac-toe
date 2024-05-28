@@ -5,7 +5,15 @@ class Board
   @@board_count = 0
 
   def initialize
-    @layout = set_board
+    @layout = Array(1..9)
+    @@board_count += 1
+
+    begin
+      raise CustomErrors::BoardLimitViolation if @@board_count > 1
+    rescue CustomErrors::BoardLimitViolation => e
+      puts e.message
+      exit
+    end
   end
 
   def vacant_positions
@@ -21,30 +29,10 @@ class Board
 
   private
   def vacant?(element)
-    element.to_s.match?(/^\d$/)
-  end
-
-  def set_board
-    if @@board_count == 0
-      layout = Array(1..9)
-      @@board_count += 1
-    else
-      begin
-        raise CustomErrors::BoardLimitViolation
-      rescue CustomErrors::BoardLimitViolation => e
-        puts e.message
-      end
-    end
-    layout
+    element.is_a?(Integer)
   end
 
   def self.board_count
     @@board_count
   end
 end
-
-# player1 = Player.new
-
-# board1 = Board.new
-# board1.update_board(player1)
-# board1.display_board

@@ -17,26 +17,26 @@ class Game
   def update_board(player)
     loop do
       vacancies = board.vacant_positions
+      break if win? || draw?
+
       puts "Choose from positions #{vacancies.join(', ')} to place your avatar: "
       player_position = player.choose_position
 
-      begin
-        raise CustomErrors::InvalidBoardPosition.new unless vacancies.include?(player_position)
-      rescue CustomErrors::InvalidBoardPosition => e
-        puts e.message
-      else
+      if vacancies.include?(player_position)
         board.layout[player_position - 1] = player.avatar
         break
+      else
+        puts 'The position has either been taken or is not valid.'
       end
     end
   end
 
   def draw?
-    board.layout.none?(/\d/i)
+    board.vacant_positions.empty? && !win?
   end
 
   def win?
-    get_win_pattern.length > 0
+    get_win_pattern.size > 0
   end
 
   def get_winner
@@ -52,8 +52,6 @@ class Game
   def get_game_state(combo)
     board.layout.values_at(*combo).all?(/o/i) || board.layout.values_at(*combo).all?(/x/i)
   end
-
-
 end
 
 player1 = Player.new
@@ -61,18 +59,20 @@ player2 = Player.new
 board = Board.new
 game = Game.new([player1, player2], board)
 
+round = 1
+
 loop do
+  puts "Round #{round}:\n"
+  game.update_board(player1)
+  game.update_board(player2)
+  board.display_board
+
   if game.win?
-    puts game.get_win_pattern
+    puts 'There is a winner!'
     break
   elsif game.draw?
     puts 'It is a draw.'
     break
   end
-  game.update_board(player1)
-  board.display_board
-
-  game.update_board(player2)
-  board.display_board
-
+  round += 1
 end
