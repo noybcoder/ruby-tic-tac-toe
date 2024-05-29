@@ -14,22 +14,24 @@ class Game
     ]
   end
 
-  def update_board(player)
-    loop do
-      vacancies = board.vacant_positions
-      break if win? || draw?
+  def take_turns
+    players.each_with_index do |player, idx|
+      loop do
+        vacancies = board.vacant_positions
+        break if win? || draw?
 
-      puts "Choose from positions #{vacancies.join(', ')} to place your avatar: "
-      player_position = player.choose_position
-      valid_position = vacancies.include?(player_position)
+        puts "Player #{idx + 1}, place #{player.avatar} in one of the positions #{vacancies.join(', ')}: "
+        player_position = player.choose_position
+        valid_position = vacancies.include?(player_position)
 
-      if valid_position
-        board.layout[player_position - 1] = player.avatar
-        break
-      elsif player_position.between?(1, 9) && !valid_position
-        puts 'The position has been taken.'
-      else
-        puts 'The position is not valid.'
+        if valid_position
+          board.layout[player_position - 1] = player.avatar
+          break
+        elsif player_position.between?(1, 9) && !valid_position
+          puts 'The position has been taken.'
+        else
+          puts 'The position is not valid.'
+        end
       end
     end
   end
@@ -39,20 +41,21 @@ class Game
   end
 
   def win?
-    get_win_pattern.size > 0
+    get_winning_pattern.size > 0
   end
 
   def get_winner
-    Player.avatars[board.layout[get_win_pattern[0]]]
-  end
-
-
-  def get_win_pattern
-    win_conditions.select { |combo| get_game_state(combo) }.flatten
+    winning_avatar = board.layout[get_winning_pattern[0]]
+    winner_index = players.map { |player| player.avatar }.find_index(winning_avatar)
+    puts "Player #{winner_index + 1} is the winner!"
   end
 
   private
-  def get_game_state(combo)
+  def get_winning_pattern
+    win_conditions.select { |combo| winning_pattern(combo) }.flatten
+  end
+
+  def winning_pattern(combo)
     board.layout.values_at(*combo).all?(/o/i) || board.layout.values_at(*combo).all?(/x/i)
   end
 end
@@ -66,12 +69,13 @@ round = 1
 
 loop do
   puts "Round #{round}:\n"
-  game.update_board(player1)
-  game.update_board(player2)
+  game.take_turns
+  puts "\n"
   board.display_board
+  puts "\n"
 
   if game.win?
-    puts 'There is a winner!'
+    game.get_winner
     break
   elsif game.draw?
     puts 'It is a draw.'

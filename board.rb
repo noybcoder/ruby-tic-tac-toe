@@ -17,7 +17,7 @@ class Board
   end
 
   def vacant_positions
-    layout.select { |spot| vacant?(spot) }
+    layout.select { |position| position.is_a?(Integer) }
   end
 
   def display_board
@@ -28,10 +28,6 @@ class Board
   end
 
   private
-  def vacant?(element)
-    element.is_a?(Integer)
-  end
-
   def self.board_count
     @@board_count
   end

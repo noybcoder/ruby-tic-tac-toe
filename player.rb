@@ -8,15 +8,15 @@ class Player
     @avatar = set_avatar
   end
 
-  def self.avatars
-    @@avatars
-  end
-
   def choose_position
     gets.chomp.to_i
   end
 
   private
+  def self.avatars
+    @@avatars
+  end
+
   def set_avatar
     if @@avatars.empty?
       avatar = set_first_player_avatar
