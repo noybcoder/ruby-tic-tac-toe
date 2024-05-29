@@ -1,4 +1,4 @@
-require_relative '/lib/game'
+require './lib/game'
 
 # Create two players
 player1 = Player.new
