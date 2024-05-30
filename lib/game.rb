@@ -31,7 +31,7 @@ class Game
         break if win? || draw? # Stop the game when there is a winner or if it is a draw
 
         # Ask the player to place their avatar on the board
-        puts "Player #{idx + 1}, place #{player.avatar} in one of the positions #{vacancies.join(', ')}: "
+        puts "\nPlayer #{idx + 1}, place #{player.avatar} in one of the positions #{vacancies.join(', ')}:"
         player_position = player.choose_position
         valid_position = vacancies.include?(player_position)
 
@@ -72,7 +72,7 @@ class Game
     winning_avatar = board.layout[get_winning_pattern[0]] # Retrieve the winner's avatar
     # Look up the index of the winner
     winner_index = players.map { |player| player.avatar }.find_index(winning_avatar)
-    puts "Player #{winner_index + 1} is the winner!" # Reveal the winner
+    puts "\nPlayer #{winner_index + 1} is the winner!" # Reveal the winner
   end
 
   private

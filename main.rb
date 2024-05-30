@@ -15,15 +15,14 @@ round = 1
 
 # Start the game loop
 loop do
-  puts "Round #{round}:\n" # Display the current round
+  puts "\nRound #{round}:" # Display the current round
   game.take_turns # Players take turns placing their markers on the board
-  puts "\n"
 
   if game.win? # Check if there is a winner
     game.get_winner # Reveal the winner
     break # Game over
   elsif game.draw? # Check if it is a draw
-    puts 'It is a draw.' # Notify the players
+    puts '\nIt is a draw.' # Notify the players
     break # Game over
   end
   round += 1 # Increment the round counter

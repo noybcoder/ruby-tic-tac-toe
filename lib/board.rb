@@ -32,11 +32,11 @@ class Board
   #
   # Displays the board layout with positions and markers.
   def display_board
+    puts "\n"
     layout.each_slice(3).each_with_index do |row, idx|
-      puts " #{row.join(' | ')}\n"
+      puts " #{row.join(' | ')}"
       puts '---|---|---' if idx < 2
     end
-    puts "\n"
   end
 
   private

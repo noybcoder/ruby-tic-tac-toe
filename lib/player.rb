@@ -10,6 +10,7 @@ class Player
   # Returns a new Player object.
   def initialize
     @avatar = set_avatar
+    puts "Player #{@@avatars.size} chose #{@@avatars[@@avatars.size - 1]}"
   end
 
   # Public: Prompts the player to choose a position on the board.
@@ -52,14 +53,14 @@ class Player
     valid_avatar = false
 
     until valid_avatar
-      puts 'Choose your avatar (O or X): '
+      puts "Choose your avatar (O or X):"
       choice = gets.chomp
 
       if choice.match?(/^[ox]{1}$/i) # Validate the choice to be either 'O' or 'X'
         valid_avatar = true
         return choice.upcase # Return the chosen avatar in uppercase
       else
-        puts 'Please only choose from "O" and "X".' # Prompt the player to choose a valid avatar
+        puts "Please only choose from O and X.\n\n" # Prompt the player to choose a valid avatar
       end
     end
   end
