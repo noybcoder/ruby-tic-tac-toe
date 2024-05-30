@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/game'
 
 # Create two players
@@ -19,7 +21,7 @@ loop do
   game.take_turns # Players take turns placing their markers on the board
 
   if game.win? # Check if there is a winner
-    game.get_winner # Reveal the winner
+    game.display_winner # Reveal the winner
     break # Game over
   elsif game.draw? # Check if it is a draw
     puts "\nIt is a draw." # Notify the players

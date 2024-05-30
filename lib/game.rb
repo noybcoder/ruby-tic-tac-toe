@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'player'
 require_relative 'board'
 
@@ -62,16 +64,16 @@ class Game
   #
   # Returns true if a player has won, otherwise false.
   def win?
-    get_winning_pattern.size > 0
+    display_winning_pattern.size.positive?
   end
 
   # Public: Determines the winner of the game and displays the result.
   #
   # Returns nothing.
-  def get_winner
-    winning_avatar = board.layout[get_winning_pattern[0]] # Retrieve the winner's avatar
+  def display_winner
+    winning_avatar = board.layout[display_winning_pattern[0]] # Retrieve the winner's avatar
     # Look up the index of the winner
-    winner_index = players.map { |player| player.avatar }.find_index(winning_avatar)
+    winner_index = players.map(&:avatar).find_index(winning_avatar)
     puts "\nPlayer #{winner_index + 1} is the winner!" # Reveal the winner
   end
 
@@ -80,7 +82,7 @@ class Game
   # Private: Finds the winning pattern on the board.
   #
   # Returns an array containing the winning positions, or an empty array if no winner.
-  def get_winning_pattern
+  def display_winning_pattern
     win_conditions.select { |combo| winning_pattern(combo) }.flatten
   end
 

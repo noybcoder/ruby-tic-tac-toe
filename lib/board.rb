@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'errors'
 
 # Board class that represents a game board in the Tic-Tac-Toe game.
 class Board
   attr_reader :layout
+
   @@board_count = 0 # Create a class variable to keep track of board count
 
   # Public: Initializes a new Board instance.
@@ -38,8 +41,6 @@ class Board
       puts '---|---|---' if idx < 2
     end
   end
-
-  private
 
   # Private: Returns the count of board instances created.
   #
