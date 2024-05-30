@@ -19,9 +19,6 @@ loop do
   game.take_turns # Players take turns placing their markers on the board
   puts "\n"
 
-  board.display_board  # Display the current state of the board
-  puts "\n"
-
   if game.win? # Check if there is a winner
     game.get_winner # Reveal the winner
     break # Game over

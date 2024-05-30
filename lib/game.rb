@@ -35,9 +35,10 @@ class Game
         player_position = player.choose_position
         valid_position = vacancies.include?(player_position)
 
-        # If a valid position on the board is chosen, mark the position with the player's avatar
+        # If the player chooses a valid position on the board
         if valid_position
-          board.layout[player_position - 1] = player.avatar
+          board.layout[player_position - 1] = player.avatar # Mark the position with the player's avatar
+          board.display_board # Show the current board layout
           break
         # Notify the player if the position on the board is taken
         elsif player_position.between?(1, 9) && !valid_position

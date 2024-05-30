@@ -36,6 +36,7 @@ class Board
       puts " #{row.join(' | ')}\n"
       puts '---|---|---' if idx < 2
     end
+    puts "\n"
   end
 
   private
