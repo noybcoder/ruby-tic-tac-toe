@@ -22,7 +22,7 @@ loop do
     game.get_winner # Reveal the winner
     break # Game over
   elsif game.draw? # Check if it is a draw
-    puts '\nIt is a draw.' # Notify the players
+    puts "\nIt is a draw." # Notify the players
     break # Game over
   end
   round += 1 # Increment the round counter
