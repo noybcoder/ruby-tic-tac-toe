@@ -45,7 +45,7 @@ class Board
   # Private: Returns the count of board instances created.
   #
   # Returns an integer representing the count of board instances.
-  def self.board_count
+  private_class_method def self.board_count
     @@board_count
   end
 end

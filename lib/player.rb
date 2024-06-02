@@ -23,15 +23,14 @@ class Player
     gets.chomp.to_i
   end
 
-  private
-
   # Private: Returns the array of avatars chosen by players.
   #
   # Returns an array of strings representing player avatars.
-  def self.avatars
+  private_class_method def self.avatars
     @@avatars
   end
 
+  private
   # Private: Sets the avatar for the player.
   #
   # Returns a string representing the player's avatar.
@@ -66,7 +65,6 @@ class Player
       end
     end
   end
-
 
   # Private: Handles the violation of player limit.
   #
