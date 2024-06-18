@@ -6,18 +6,23 @@ require_relative 'errors'
 class Board
   attr_reader :layout
 
-  @@board_count = 0 # Create a class variable to keep track of board count
+  BOARD_LIMIT = 1 # Set the maximum limit of board
+
+  class << self # Class-level constant to set the maximum limit of board
+    attr_accessor :board_count
+  end
 
   # Public: Initializes a new Board instance.
   #
   # Returns a new Board object.
   def initialize
+    self.class.board_count ||= 0 # Ensures board count is not nil
+    self.class.board_count += 1 # Increment the board count
     @layout = Array(1..9) # Initialize the board layout with positions 1 to 9
-    @@board_count += 1 # Increment the board count
 
     begin
       # Raise error if more than one board instance is created
-      raise CustomErrors::BoardLimitViolation if @@board_count > 1
+      raise CustomErrors::BoardLimitViolation if self.class.board_count > BOARD_LIMIT
     rescue CustomErrors::BoardLimitViolation => e
       puts e.message # Display the error message
       exit # Terminate the program
@@ -40,12 +45,5 @@ class Board
       puts " #{row.join(' | ')}"
       puts '---|---|---' if idx < 2
     end
-  end
-
-  # Private: Returns the count of board instances created.
-  #
-  # Returns an integer representing the count of board instances.
-  private_class_method def self.board_count
-    @@board_count
   end
 end
