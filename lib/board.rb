@@ -4,11 +4,13 @@ require_relative 'errors'
 
 # Board class that represents a game board in the Tic-Tac-Toe game.
 class Board
+  include CustomErrors
   attr_reader :layout
 
   BOARD_LIMIT = 1 # Set the maximum limit of board
 
-  class << self # Class-level constant to set the maximum limit of board
+  # Class-level constant to set the maximum limit of board
+  class << self
     attr_accessor :board_count
   end
 
@@ -16,17 +18,12 @@ class Board
   #
   # Returns a new Board object.
   def initialize
+    @layout = Array(1..9) # Initialize the board layout with positions 1 to 9
     self.class.board_count ||= 0 # Ensures board count is not nil
     self.class.board_count += 1 # Increment the board count
-    @layout = Array(1..9) # Initialize the board layout with positions 1 to 9
 
-    begin
-      # Raise error if more than one board instance is created
-      raise CustomErrors::BoardLimitViolation if self.class.board_count > BOARD_LIMIT
-    rescue CustomErrors::BoardLimitViolation => e
-      puts e.message # Display the error message
-      exit # Terminate the program
-    end
+    # If more than one game board exists, raise an error
+    handle_game_violations(BoardLimitViolation, self.class.board_count, BOARD_LIMIT)
   end
 
   # Public: Returns an array of vacant positions on the board.
@@ -41,7 +38,7 @@ class Board
   # Displays the board layout with positions and markers.
   def display_board
     puts "\n"
-    layout.each_slice(3).each_with_index do |row, idx|
+    layout.each_slice(3).with_index do |row, idx|
       puts " #{row.join(' | ')}"
       puts '---|---|---' if idx < 2
     end
