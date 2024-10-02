@@ -43,7 +43,7 @@ class Game
           board.display_board # Show the current board layout
           break
         # Notify the player if the position on the board is taken
-        elsif player_position.between?(1, 9) && !valid_position
+        elsif player_position.is_a?(Integer) && player_position.between?(1, 9) && !valid_position
           puts 'The position has been taken.'
         # Notify the player if the position on the board is invalid
         else
@@ -71,19 +71,20 @@ class Game
   #
   # Returns nothing.
   def display_winner
+    return if display_winning_pattern.empty?
     winning_avatar = board.layout[display_winning_pattern[0]] # Retrieve the winner's avatar
     # Look up the index of the winner
     winner_index = players.map(&:avatar).find_index(winning_avatar)
     puts "\nPlayer #{winner_index + 1} is the winner!" # Reveal the winner
   end
 
-  private
+  # private
 
   # Private: Finds the winning pattern on the board.
   #
   # Returns an array containing the winning positions, or an empty array if no winner.
   def display_winning_pattern
-    win_conditions.select { |combo| winning_pattern(combo) }.flatten
+    win_conditions.select { |combo| winning_pattern?(combo) }.flatten
   end
 
   # Private: Checks if a specific player has achieved a winning pattern on the board.
@@ -92,7 +93,7 @@ class Game
   # player - The avatar of the player to check for.
   #
   # Returns true if the player has a winning pattern, otherwise false.
-  def winning_pattern(combo)
+  def winning_pattern?(combo)
     same_pattern?(combo, players[0]) || same_pattern?(combo, players[1])
   end
 

@@ -43,6 +43,7 @@ module CustomErrors
     raise error if current_value > limit
   rescue error => e
     puts e.message # Display the error message
-    exit # Terminate the program
+    # exit # Terminate the program
+    raise e
   end
 end

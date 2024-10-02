@@ -30,7 +30,7 @@ class Player
     gets.chomp.to_i
   end
 
-  private
+  # private
 
   # Private: Sets the avatar for the player.
   #
